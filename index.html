@@ -13,15 +13,83 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 :root{
-  --bg:#141414;--fg:#f7f7f7;
-  --muted:#888;--muted2:#555;
-  --border:#262626;--hairline:#1e1e1e;--faint:#333;--card:#111;
+  --bg:#040404;--fg:#f2f2f2;
+  --muted:#888;--muted2:#4a4a4a;
+  --border:#1a1a1a;--hairline:#111;--faint:#2a2a2a;--card:#090909;
   --fd:'Syne',sans-serif;--fb:'Inter',sans-serif;--fm:'JetBrains Mono',monospace;
 }
 body{background:var(--bg);color:var(--fg);font-family:var(--fb);font-weight:300;
   overflow-x:hidden;cursor:none;-webkit-font-smoothing:antialiased;}
 ::selection{background:var(--fg);color:var(--bg);}
 @media(max-width:768px){body{cursor:auto;}}
+
+/* ─── PAGE LOAD ──────────────────────────── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+body{animation:fadeIn .5s ease both;}
+.hero-inner>*{animation:fadeUp .9s cubic-bezier(.2,.7,.3,1) both;}
+.hero-inner>*:nth-child(1){animation-delay:.05s;}
+.hero-inner>*:nth-child(2){animation-delay:.12s;}
+.hero-inner>*:nth-child(3){animation-delay:.18s;}
+.hero-inner>*:nth-child(4){animation-delay:.26s;}
+
+/* ─── SCROLL PROGRESS ────────────────────── */
+#progress{position:fixed;top:0;left:0;height:1px;
+  background:rgba(242,242,242,.55);width:0%;z-index:9998;
+  transition:width .1s linear;pointer-events:none;}
+
+/* ─── NAV LINK UNDERLINE ─────────────────── */
+.nav-links a{position:relative;}
+.nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;
+  background:var(--fg);transition:width .35s cubic-bezier(.76,0,.24,1);}
+.nav-links a:hover::after{width:100%;}
+
+/* ─── STAT CELL COUNT-IN PULSE ───────────── */
+@keyframes statPop{0%{transform:scale(.92) translateY(4px);opacity:0;}
+  60%{transform:scale(1.04);}100%{transform:scale(1);opacity:1;}}
+.stat-num.popped{animation:statPop .55s cubic-bezier(.2,.7,.3,1) both;}
+
+/* ─── PILLAR BORDER REVEAL ───────────────── */
+.pillars li{position:relative;overflow:hidden;}
+.pillars li::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;
+  background:rgba(242,242,242,.2);transition:width .7s cubic-bezier(.76,0,.24,1);}
+.pillars li.in::after{width:100%;}
+
+/* ─── FUTURE CARD HOVER LINE ─────────────── */
+.fc{position:relative;overflow:hidden;}
+.fc::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(to right,transparent,rgba(242,242,242,.35),transparent);
+  transform:scaleX(0);transition:transform .5s cubic-bezier(.76,0,.24,1);}
+.fc:hover::before{transform:scaleX(1);}
+
+/* ─── MARQUEE FADE EDGES ─────────────────── */
+.mq-strip::before,.mq-strip::after{content:'';position:absolute;top:0;bottom:0;
+  width:80px;z-index:2;pointer-events:none;}
+.mq-strip::before{left:0;background:linear-gradient(to right,var(--bg),transparent);}
+.mq-strip::after{right:0;background:linear-gradient(to left,var(--bg),transparent);}
+.mq-strip{position:relative;}
+
+/* ─── ANIMATED BORDER ON CONTACT BLOCKS ──── */
+.contact-block{position:relative;}
+.contact-block::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;
+  background:rgba(242,242,242,.18);transition:width .8s cubic-bezier(.76,0,.24,1);}
+.contact-block.in::after{width:100%;}
+
+/* ─── FOOTER BRAND HOVER ─────────────────── */
+.footer-brand{transition:letter-spacing .4s cubic-bezier(.76,0,.24,1);}
+.footer-brand:hover{letter-spacing:.04em;}
+
+/* ─── SECTION EYEBROW SLIDE ──────────────── */
+.sec-eyebrow{overflow:hidden;}
+.sec-eyebrow::before{transition:width .6s .1s cubic-bezier(.76,0,.24,1);}
+
+/* ─── MOBILE MENU LINK STAGGER ───────────── */
+.mob a{opacity:0;transform:translateY(20px);transition:opacity .4s,transform .4s;}
+.mob.open a:nth-child(1){opacity:1;transform:none;transition-delay:.08s;}
+.mob.open a:nth-child(2){opacity:1;transform:none;transition-delay:.14s;}
+.mob.open a:nth-child(3){opacity:1;transform:none;transition-delay:.20s;}
+.mob.open a:nth-child(4){opacity:1;transform:none;transition-delay:.26s;}
+.mob.open a:nth-child(5){opacity:1;transform:none;transition-delay:.32s;}
 
 /* ─── GRAIN ──────────────────────────────── */
 body::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;
@@ -44,7 +112,7 @@ body.hov #cur::after{height:34px;opacity:.4;}
 nav{position:fixed;top:0;width:100%;z-index:200;
   padding:20px 48px;display:flex;justify-content:space-between;align-items:center;
   border-bottom:1px solid transparent;transition:border-color .5s,background .5s;}
-nav.sc{border-color:var(--border);background:rgba(20,20,20,.88);backdrop-filter:blur(20px);}
+nav.sc{border-color:var(--border);background:rgba(4,4,4,.92);backdrop-filter:blur(20px);}
 .logo{font-family:var(--fd);font-weight:800;font-size:.85rem;letter-spacing:.4em;
   text-transform:uppercase;color:var(--fg);text-decoration:none;cursor:none;}
 .logo em{color:var(--muted);font-style:normal;}
@@ -67,7 +135,7 @@ nav.sc{border-color:var(--border);background:rgba(20,20,20,.88);backdrop-filter:
 .ham.open span:nth-child(2){opacity:0;}
 .ham.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
 /* Mobile menu */
-.mob{position:fixed;inset:0;z-index:150;background:rgba(20,20,20,.98);backdrop-filter:blur(24px);
+.mob{position:fixed;inset:0;z-index:150;background:rgba(4,4,4,.99);backdrop-filter:blur(24px);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;
   transform:translateY(-100%);transition:transform .5s cubic-bezier(.76,0,.24,1);}
 .mob.open{transform:translateY(0);}
@@ -380,10 +448,11 @@ footer{border-top:1px solid var(--border);padding:64px 0;}
   #message{padding:80px 0;}
   #focus{padding:80px 0;}
   .game-wrap{grid-template-columns:1fr;border-bottom:none;}
+  #gc{height:220px;}
   .game-aside{border-left:none;border-top:1px solid var(--border);
-    grid-template-columns:1fr 1fr;flex-direction:row;flex-wrap:wrap;}
+    display:grid;grid-template-columns:1fr 1fr;gap:0;padding:24px;}
   .game-divider{display:none;}
-  .game-tip{grid-column:1/-1;}
+  .game-tip{grid-column:1/-1;margin-top:16px;}
   .game-tap{display:block;}
   #contact{padding:80px 0;}
   .contact-grid{grid-template-columns:1fr;gap:56px;}
@@ -403,6 +472,7 @@ footer{border-top:1px solid var(--border);padding:64px 0;}
 </head>
 <body>
 <canvas id="topo"></canvas>
+<div id="progress"></div>
 <div id="cur"></div>
 
 <!-- Mobile Menu -->
@@ -636,7 +706,7 @@ footer{border-top:1px solid var(--border);padding:64px 0;}
     <div class="rv">
       <div class="game-wrap">
         <div class="game-surface" id="game-surface" role="button" tabindex="0" aria-label="Runner game — click or tap to jump">
-          <canvas id="gc" width="900" height="260"></canvas>
+          <canvas id="gc" width="900" height="280"></canvas>
           <div class="game-hud-tl" id="g-score">00000</div>
           <div class="game-hud-tr" id="g-best-hud">Best · 00000</div>
           <div class="game-overlay" id="g-overlay">
@@ -765,8 +835,19 @@ document.addEventListener('mousemove',e=>{
   g.style.transform=`translate3d(${rx}px,${ry}px,0)`;
 });
 
-/* ══ NAV ════════════════════════════════════════ */
-window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('sc',scrollY>40));
+/* ══ SCROLL PROGRESS ═══════════════════════════ */
+const prog=document.getElementById('progress');
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  prog.style.width=(scrollY/h*100)+'%';
+  document.getElementById('nav').classList.toggle('sc',scrollY>40);
+},{passive:true});
+
+/* ══ PILLAR REVEAL ══════════════════════════════ */
+const pillarObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});
+},{threshold:.3});
+document.querySelectorAll('.pillars li,.contact-block').forEach(el=>pillarObs.observe(el));
 const ham=document.getElementById('ham'),mob=document.getElementById('mob');
 ham.addEventListener('click',()=>{ham.classList.toggle('open');mob.classList.toggle('open');document.body.style.overflow=mob.classList.contains('open')?'hidden':'';});
 function closeMob(){ham.classList.remove('open');mob.classList.remove('open');document.body.style.overflow='';}
@@ -810,14 +891,18 @@ document.getElementById('copy-btn').addEventListener('click',function(){
 
 /* ══ RUNNER GAME ═══════════════════════════════ */
 const GC=document.getElementById('gc'),gx=GC.getContext('2d');
-const GW=900,GH=260,GY=220;
+const GW=900,GH=280,GY=235;
 let gSt='idle',gScore=0,gBest=0,player,obstacles,speed,dist,spawnT,rafG,lastTs;
 
 try{const s=localStorage.getItem('ks-runner-best');if(s)gBest=parseInt(s);}catch{}
 
 function resetGame(){
+  if(rafG){cancelAnimationFrame(rafG);rafG=null;}
   player={y:GY,vy:0,w:22,h:28};
-  obstacles=[];speed=5;dist=0;spawnT=0;gScore=0;
+  obstacles=[];speed=5;dist=0;
+  // start spawnT with a delay so player isn't immediately hit
+  spawnT=45+Math.random()*30;
+  gScore=0;
   document.getElementById('g-dist').innerHTML='0<span class="game-stat-unit">m</span>';
   document.getElementById('g-score').textContent='00000';
 }
@@ -825,14 +910,15 @@ function resetGame(){
 function startGame(){
   resetGame();gSt='running';
   document.getElementById('g-overlay').style.display='none';
-  lastTs=performance.now();rafG=requestAnimationFrame(gameLoop);
+  lastTs=performance.now();
+  rafG=requestAnimationFrame(gameLoop);
 }
 
-function jump(){if(player.y>=GY)player.vy=-12.5;}
+function jump(){if(player.y>=GY-1)player.vy=-13;}
 
 function onPress(){
   if(gSt==='idle'||gSt==='over'){startGame();return;}
-  jump();
+  if(gSt==='running')jump();
 }
 
 const surf=document.getElementById('game-surface');
@@ -845,40 +931,58 @@ window.addEventListener('keydown',e=>{
 });
 
 function spawnObs(){
-  const tall=Math.random()<.3,wide=Math.random()<.3;
+  const tall=Math.random()<.28,wide=Math.random()<.28;
   obstacles.push({
-    x:GW+20,
-    w:wide?32+Math.random()*18:16+Math.random()*10,
-    h:tall?42+Math.random()*14:24+Math.random()*14
+    x:GW+30,
+    w:wide?30+Math.random()*16:14+Math.random()*10,
+    h:tall?40+Math.random()*12:22+Math.random()*14
   });
 }
 
 function gameLoop(){
   if(gSt!=='running')return;
   const now=performance.now();
-  const dt=Math.min(32,now-lastTs)/16.667;lastTs=now;
-  // physics
-  player.vy+=0.65*dt;player.y+=player.vy*dt;
-  if(player.y>GY){player.y=GY;player.vy=0;}
-  // speed ramp
-  speed=5+Math.min(6,dist/800);dist+=speed*dt;
-  // spawn
+  // clamp dt to avoid huge jumps after tab switch
+  const dt=Math.min(24,now-lastTs)/16.667;
+  lastTs=now;
+
+  // physics — fixed timestep feel
+  player.vy+=0.7*dt;
+  player.y+=player.vy*dt;
+  if(player.y>=GY){player.y=GY;player.vy=0;}
+
+  // speed ramp — gentler
+  speed=5+Math.min(5,dist/1000);
+  dist+=speed*dt;
+
+  // spawn — ensure minimum gap between obstacles
   spawnT-=dt;
   if(spawnT<=0){
-    spawnObs();
-    const mg=55-Math.min(20,dist/200);
-    spawnT=mg+Math.random()*60;
+    // only spawn if last obstacle is far enough away
+    const last=obstacles[obstacles.length-1];
+    if(!last||last.x<GW-180){
+      spawnObs();
+    }
+    const mg=Math.max(30,60-dist/400);
+    spawnT=mg+Math.random()*50;
   }
+
+  // move obstacles
   for(const o of obstacles)o.x-=speed*dt;
-  obstacles=obstacles.filter(o=>o.x+o.w>-10);
-  // collision
-  const px=80,py=player.y-player.h;
+  obstacles=obstacles.filter(o=>o.x+o.w>-20);
+
+  // collision — slightly forgiving hitbox (shrink by 3px each side)
+  const px=80+3,pw=player.w-6,py=player.y-player.h+2,ph=player.h-4;
   for(const o of obstacles){
     const ox=o.x,oy=GY-o.h;
-    if(px<ox+o.w&&px+player.w>ox&&py<oy+o.h&&py+player.h>oy){gameOver();return;}
+    if(px<ox+o.w&&px+pw>ox&&py<oy+o.h&&py+ph>oy){
+      gameOver();return;
+    }
   }
+
   gScore=Math.floor(dist/5);
-  updateGameUI();drawGame();
+  updateGameUI();
+  drawGame();
   rafG=requestAnimationFrame(gameLoop);
 }
 
@@ -890,39 +994,58 @@ function updateGameUI(){
 
 function gameOver(){
   gSt='over';
+  if(rafG){cancelAnimationFrame(rafG);rafG=null;}
   const final=Math.floor(dist/5);gScore=final;
-  if(final>gBest){gBest=final;try{localStorage.setItem('ks-runner-best',String(final));}catch{}}
+  if(final>gBest){
+    gBest=final;
+    try{localStorage.setItem('ks-runner-best',String(final));}catch{}
+  }
   document.getElementById('g-best-hud').textContent='Best · '+String(gBest).padStart(5,'0');
   document.getElementById('g-best').textContent=gBest||'—';
   updateGameUI();drawGame(true);
   const ov=document.getElementById('g-overlay');
   ov.style.display='flex';
   document.getElementById('g-overlay-title').textContent='You stopped';
-  ov.querySelector('.game-overlay-sub').textContent='Distance '+gScore+' — click to run again';
+  ov.querySelector('.game-overlay-sub').textContent='Score '+gScore+' — tap to run again';
 }
 
 function drawGame(dim=false){
+  gx.clearRect(0,0,GW,GH);
   // bg
-  gx.fillStyle='#0d0d0d';gx.fillRect(0,0,GW,GH);
-  // grid
-  gx.strokeStyle='rgba(255,255,255,.04)';gx.lineWidth=1;
+  gx.fillStyle='#050505';gx.fillRect(0,0,GW,GH);
+  // vertical grid lines
+  gx.strokeStyle='rgba(255,255,255,.032)';gx.lineWidth=1;
   for(let x=0;x<GW;x+=60){gx.beginPath();gx.moveTo(x,0);gx.lineTo(x,GH);gx.stroke();}
-  // ground
-  gx.strokeStyle='rgba(255,255,255,.35)';gx.lineWidth=1;
+  // ground line
+  gx.strokeStyle='rgba(255,255,255,.38)';gx.lineWidth=1;
   gx.beginPath();gx.moveTo(0,GY+1);gx.lineTo(GW,GY+1);gx.stroke();
-  // ground ticks
-  gx.fillStyle='rgba(255,255,255,.25)';
-  const off=dist%40;
-  for(let x=-off;x<GW;x+=40)gx.fillRect(x,GY+6,14,1);
+  // moving ground dashes
+  gx.fillStyle='rgba(255,255,255,.22)';
+  const off=dist%50;
+  for(let x=-off;x<GW;x+=50)gx.fillRect(x,GY+6,16,1);
   // player
-  gx.fillStyle=dim?'rgba(255,255,255,.4)':'#fafafa';
+  if(!dim){
+    // subtle glow under player
+    const pg=gx.createRadialGradient(80+player.w/2,GY+2,0,80+player.w/2,GY+2,18);
+    pg.addColorStop(0,'rgba(255,255,255,.12)');pg.addColorStop(1,'transparent');
+    gx.fillStyle=pg;gx.fillRect(60,GY-4,60,22);
+  }
+  gx.fillStyle=dim?'rgba(255,255,255,.35)':'#f2f2f2';
   gx.fillRect(80,player.y-player.h,player.w,player.h);
-  gx.fillStyle='#0d0d0d';gx.fillRect(86,player.y-player.h+8,4,4);
+  // player eye detail
+  if(!dim){gx.fillStyle='#050505';gx.fillRect(86,player.y-player.h+7,4,4);}
   // obstacles
-  gx.fillStyle=dim?'rgba(255,255,255,.35)':'#e0e0e0';
-  for(const o of obstacles)gx.fillRect(o.x,GY-o.h,o.w,o.h);
-  // dim
-  if(dim){gx.fillStyle='rgba(0,0,0,.55)';gx.fillRect(0,0,GW,GH);}
+  for(const o of obstacles){
+    if(!dim){
+      // top edge highlight
+      gx.fillStyle='rgba(255,255,255,.9)';
+      gx.fillRect(o.x,GY-o.h,o.w,1);
+    }
+    gx.fillStyle=dim?'rgba(255,255,255,.28)':'#d8d8d8';
+    gx.fillRect(o.x,GY-o.h+1,o.w,o.h-1);
+  }
+  // dim overlay on death
+  if(dim){gx.fillStyle='rgba(0,0,0,.6)';gx.fillRect(0,0,GW,GH);}
 }
 
 // Initial idle draw
